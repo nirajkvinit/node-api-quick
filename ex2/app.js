@@ -35,6 +35,9 @@ server.get("/", function(req, res, next){
 });
 
 server.get("/user/:id", function(req, res, next){
+	if(typeof(users[req.params.id]) === 'undefined') {
+		failure(res, next, 'The specified user could not be found in the database.', 404);
+	}
 	success(res, next, users[parseInt(req.params.id)]);
 });
 
@@ -49,6 +52,9 @@ server.post("/user", function(req, res, next){
 });
 
 server.put("/user/:id", function(req, res, next){
+	if(typeof(users[req.params.id]) === 'undefined') {
+		failure(res, next, 'The specified user could not be found in the database.', 404);
+	}
 	var user = users[parseInt(req.params.id)];
 	var updates = req.params;
 
@@ -59,6 +65,9 @@ server.put("/user/:id", function(req, res, next){
 });
 
 server.del("/user/:id", function(req, res, next){
+	if(typeof(users[req.params.id]) === 'undefined') {
+		failure(res, next, 'The specified user could not be found in the database.', 404);
+	}
 	delete users[parseInt(req.params.id)];
 	success(res, next, []);
 });
