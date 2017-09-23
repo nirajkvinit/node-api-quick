@@ -9,6 +9,7 @@
   "author": "Niraj Kumar",
   "license": "ISC",
   "dependencies": {
-    "restify": "^6.0.1"
+    "restify": "^6.0.1",
+    "restify-plugins": "^1.6.0"
   }
 }
