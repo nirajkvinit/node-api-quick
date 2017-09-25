@@ -14,11 +14,13 @@ module.exports = function(server) {
 		var errors = req.validationErrors();
 		if(errors) {
 			helpers.failure(res, next, errors[0], 400);
+			return next();
 		}
 		if(typeof(users[req.params.id]) === 'undefined') {
 			helpers.failure(res, next, 'The specified user could not be found in the database.', 404);
 		}
 		helpers.success(res, next, users[parseInt(req.params.id)]);
+		return next();
 	});
 
 	server.post("/user", function(req, res, next){
@@ -29,6 +31,7 @@ module.exports = function(server) {
 		var errors = req.validationErrors();
 		if(errors) {
 			helpers.failure(res, next, errors, 400);
+			return next();
 		}
 		var user = req.params;
 		
@@ -37,6 +40,7 @@ module.exports = function(server) {
 		users[user.id] = user;
 
 		helpers.success(res, next, user);
+		return next();
 	});
 
 	server.put("/user/:id", function(req, res, next){
@@ -44,6 +48,7 @@ module.exports = function(server) {
 		var errors = req.validationErrors();
 		if(errors) {
 			helpers.failure(res, next, errors[0], 400);
+			return next();
 		}
 		if(typeof(users[req.params.id]) === 'undefined') {
 			helpers.failure(res, next, 'The specified user could not be found in the database.', 404);
@@ -55,6 +60,7 @@ module.exports = function(server) {
 			user[field] = updates[field];
 		}
 		helpers.success(res, next, user);
+		return next();
 	});
 
 	server.del("/user/:id", function(req, res, next){
@@ -62,11 +68,14 @@ module.exports = function(server) {
 		var errors = req.validationErrors();
 		if(errors) {
 			helpers.failure(res, next, errors[0], 400);
+			return next();
 		}
 		if(typeof(users[req.params.id]) === 'undefined') {
 			helpers.failure(res, next, 'The specified user could not be found in the database.', 404);
+			return next();
 		}
 		delete users[parseInt(req.params.id)];
 		helpers.success(res, next, []);
+		return next();
 	});
 }
