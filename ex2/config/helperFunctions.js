@@ -5,8 +5,7 @@ function _respond(res, next, status, data, http_code) {
 	};
 	res.setHeader('content-type', 'application/json');
 	res.writeHead(http_code);
-	res.end(JSON.stringify(response));
-	return next();
+	res.end(JSON.stringify(response));	
 }
 
 module.exports.success = function (res, next, data) {
