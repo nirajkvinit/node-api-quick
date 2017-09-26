@@ -38,4 +38,9 @@ module.exports = function(server, plugins, restifyValidator) {
 		}
 	});
 
+	server.use(plugins.throttle({
+		rate: 1,
+		burst: 2,
+		xff: true;
+	}));
 }
