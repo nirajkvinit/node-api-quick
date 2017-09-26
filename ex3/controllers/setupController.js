@@ -4,6 +4,22 @@ module.exports = function(server, plugins, restifyValidator) {
 	server.use(plugins.queryParser());
 	server.use(plugins.authorizationParser());
 	server.use(restifyValidator);
+
+	server.use(function(req, res, next) {
+		var whitelistedIPs = ['111.222.333.444'];
+		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+		if(whitelistedIPs.indexOf(ip) === -1) {
+			var response = {
+				'status': 'failure',
+				'data': 'Invalid IP Address.'
+			};
+			res.setHeader('content-type', 'application/json');
+			res.writeHead(403);
+			res.end(JSON.stringify(response));
+		}
+		//return next();
+	});
+
 	server.use(function(req, res, next) {
 		var apiKeys = {
 			'user1': 'kjkjh5KJHv694JG745f667jfRR'
@@ -21,6 +37,5 @@ module.exports = function(server, plugins, restifyValidator) {
 			return next();	
 		}
 	});
+
 }
-
-
